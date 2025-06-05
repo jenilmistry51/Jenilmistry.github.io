@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jenil Mistry - Tech Blog</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 2rem 0;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-100px) rotate(360deg); }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Blog Section */
+        .blog-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 2rem 0;
+            padding: 3rem 2rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .blog-card-header {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .blog-card-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M20,20 Q40,10 60,20 T100,20 L100,100 L0,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            animation: wave 3s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: translateX(0px); }
+            50% { transform: translateX(10px); }
+        }
+
+        .blog-card-content {
+            padding: 1.5rem;
+        }
+
+        .blog-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .blog-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-card p {
+            color: #555;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+
+        /* About Section */
+        .about-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            margin: 2rem 0;
+            padding: 3rem 2rem;
+            color: white;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #667eea;
+            transform: scale(1.2);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* New Post Form */
+        .new-post-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <nav>
+                <div class="logo">Jenil Mistry</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#blog">Blog</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>Welcome to My Tech Journey</h1>
+            <p>Computer Science Student | Full Stack Developer | AI Enthusiast | Hardware Expert</p>
+            <div class="hero-buttons">
+                <button class="btn" onclick="showNewPostForm()">Write New Post</button>
+                <a href="#about" class="btn btn-outline">Learn More</a>
+            </div>
+        </section>
+
+        <!-- New Post Form -->
+        <div class="new-post-form" id="newPostForm">
+            <h3>Write a New Blog Post</h3>
+            <form onsubmit="addNewPost(event)">
+                <div class="form-group">
+                    <label for="postTitle">Title:</label>
+                    <input type="text" id="postTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="postCategory">Category:</label>
+                    <input type="text" id="postCategory" placeholder="e.g., Web Development, AI, Hardware">
+                </div>
+                <div class="form-group">
+                    <label for="postContent">Content:</label>
+                    <textarea id="postContent" required></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Publish Post</button>
+                    <button type="button" class="btn btn-outline" onclick="hideNewPostForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Blog Section -->
+        <section class="blog-section" id="blog">
+            <h2 class="section-title">Latest Blog Posts</h2>
+            <div class="blog-grid" id="blogGrid">
+                <article class="blog-card">
+                    <div class="blog-card-header"></div>
+                    <div class="blog-card-content">
+                        <h3>My Journey with Full Stack Development</h3>
+                        <div class="blog-meta">Posted on June 5, 2025 | Web Development</div>
+                        <p>During my 3-month internship at Pacific Cyber Technology, I developed a comprehensive WMS system and asset management platform. Here's what I learned about building enterprise-level applications...</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-card-header"></div>
+                    <div class="blog-card-content">
+                        <h3>AI and Machine Learning: My Learning Experience</h3>
+                        <div class="blog-meta">Posted on June 3, 2025 | Artificial Intelligence</div>
+                        <p>Completing internships with IBM SkillsBuild and YBI Foundation gave me hands-on experience with AI frameworks. Let me share the key insights and practical applications I discovered...</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-card-header"></div>
+                    <div class="blog-card-content">
+                        <h3>Hardware Meets Software: A Unique Perspective</h3>
+                        <div class="blog-meta">Posted on June 1, 2025 | Hardware & Technology</div>
+                        <p>Growing up in a family electronics business taught me hardware repair from a young age. Here's how this background gives me a unique advantage in software development...</p>
+                        <a href="#" class="read-more">Read More →</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about-section" id="about">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-content">
+                <div class="about-image">JM</div>
+                <div>
+                    <h3>Jenil Mistry</h3>
+                    <p>I'm a Computer Science student at Government Engineering College, Daman, with a passion for bridging the gap between hardware and software. With three internships under my belt and hands-on experience in full-stack development, I bring a unique perspective to technology.</p>
+                    <p>My journey spans from developing enterprise-level systems at Pacific Cyber Technology to mastering AI/ML through prestigious internships with IBM and YBI Foundation. Additionally, my 5+ years of hardware repair experience gives me a comprehensive understanding of technology from the ground up.</p>
+                    <div class="skills">
+                        <span class="skill-tag">Full Stack Development</span>
+                        <span class="skill-tag">Laravel & PHP</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">AI & Machine Learning</span>
+                        <span class="skill-tag">Hardware Repair</span>
+                        <span class="skill-tag">WMS Systems</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="social-links">
+            <a href="#" title="LinkedIn">🔗</a>
+            <a href="#" title="GitHub">💻</a>
+            <a href="#" title="Email">📧</a>
+            <a href="#" title="Twitter">🐦</a>
+        </div>
+        <p>&copy; 2025 Jenil Mistry. All rights reserved. | Built with passion for technology</p>
+    </footer>
+
+    <script>
+        // Blog functionality
+        let blogPosts = [];
+
+        function showNewPostForm() {
+            document.getElementById('newPostForm').style.display = 'block';
+            document.getElementById('newPostForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function hideNewPostForm() {
+            document.getElementById('newPostForm').style.display = 'none';
+            // Clear form
+            document.getElementById('postTitle').value = '';
+            document.getElementById('postCategory').value = '';
+            document.getElementById('postContent').value = '';
+        }
+
+        function addNewPost(event) {
+            event.preventDefault();
+            
+            const title = document.getElementById('postTitle').value;
+            const category = document.getElementById('postCategory').value;
+            const content = document.getElementById('postContent').value;
+            
+            const newPost = {
+                id: Date.now(),
+                title: title,
+                category: category || 'General',
+                content: content,
+                date: new Date().toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                })
+            };
+            
+            blogPosts.unshift(newPost);
+            renderBlogPosts();
+            hideNewPostForm();
+            
+            // Show success message
+            alert('Blog post published successfully!');
+        }
+
+        function renderBlogPosts() {
+            const blogGrid = document.getElementById('blogGrid');
+            
+            // Keep the original 3 posts and add new ones
+            const originalPosts = blogGrid.innerHTML;
+            
+            blogPosts.forEach(post => {
+                const blogCard = document.createElement('article');
+                blogCard.className = 'blog-card';
+                blogCard.innerHTML = `
+                    <div class="blog-card-header"></div>
+                    <div class="blog-card-content">
+                        <h3>${post.title}</h3>
+                        <div class="blog-meta">Posted on ${post.date} | ${post.category}</div>
+                        <p>${post.content.substring(0, 150)}${post.content.length > 150 ? '...' : ''}</p>
+                        <a href="#" class="read-more" onclick="viewFullPost(${post.id})">Read More →</a>
+                    </div>
+                `;
+                blogGrid.insertBefore(blogCard, blogGrid.firstChild);
+            });
+        }
+
+        function viewFullPost(postId) {
+            const post = blogPosts.find(p => p.id === postId);
+            if (post) {
+                alert(`Title: ${post.title}\n\nCategory: ${post.category}\n\nContent:\n${post.content}`);
+            }
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section, .blog-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
